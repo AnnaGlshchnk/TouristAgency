@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 	  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <include file="/db/create-user-table-changelog.xml"/>
-    <include file="/db/insert-user-table-changelog.xml"/>
-    <include file="/db/create-country-table-changelog.xml"/>
-    <include file="/db/create-city-table-changelog.xml"/>
+    <include file="/db/schema_db.xml"/>
+    <include file="/db/data_db.xml"/>
 </databaseChangeLog>

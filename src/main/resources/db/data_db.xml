@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet author="hanna" id="tagDatabase-example">
         <tagDatabase tag="1.2"/>
     </changeSet>
-    <changeSet author="hanna" id="2" runOnChange="true">
+    <changeSet author="hanna" id="11" runOnChange="true">
+        <insert tableName="roles">
+            <column name="role_name" value="ADMIN"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="role_name" value="user"/>
+        </insert>
+    </changeSet>
+    <changeSet author="hanna" id="12" runOnChange="true">
         <insert tableName="users">
             <column name="user_name" value="Hanna"/>
             <column name="user_surname" value="Hlushchanka"/>
@@ -24,8 +30,5 @@
             <column name="email" value="crisowen@mail.com"/>
             <column name="password" value="password"/>
         </insert>
-        <rollback>
-            delete from users where user_id=4;
-        </rollback>
     </changeSet>
 </databaseChangeLog>
