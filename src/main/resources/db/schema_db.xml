@@ -70,7 +70,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="country_id" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_country_id" references="countries(country_id)"/>
+                <constraints nullable="false" foreignKeyName="country_id" references="countries(country_id)"/>
             </column>
         </createTable>
         <rollback>
@@ -121,10 +121,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="departure_city" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_departure_city" references="cities(city_id)"/>
+                <constraints nullable="false" foreignKeyName="departure_city" references="cities(city_id)"/>
             </column>
             <column name="transport_type" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_transport_type" references="transports(transport_id)"/>
+                <constraints nullable="false" foreignKeyName="transport_type" references="transports(transport_id)"/>
             </column>
             <column name="price" type="INT">
                 <constraints nullable="false"/>
@@ -144,22 +144,19 @@
             <column name="description" type="TEXT">
                 <constraints nullable="false"/>
             </column>
-            <column name="user" type="INT">
-                <constraints nullable="true"/>
-            </column>
         </createTable>
         <rollback>
             <dropTable tableName="tours"/>
         </rollback>
     </changeSet>
 
-    <changeSet author="hanna" id="8" runOnChange="true">
+    <changeSet author="anna" id="8" runOnChange="true">
         <createTable tableName="user_tour">
             <column name="user_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="fk_user_id" references="users(user_id)"/>
+                <constraints primaryKey="true" foreignKeyName="user_id" references="users(user_id)"/>
             </column>
             <column name="tour_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="fk_tour_id" references="tours(tour_id)"/>
+                <constraints primaryKey="true" foreignKeyName="tour_id" references="tours(tour_id)"/>
             </column>
         </createTable>
     </changeSet>
@@ -167,21 +164,21 @@
     <changeSet author="hanna" id="9" runOnChange="true">
         <createTable tableName="user_role">
             <column name="user_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="fk_user_id" references="users(user_id)"/>
+                <constraints primaryKey="true" foreignKeyName="user_id" references="users(user_id)"/>
             </column>
             <column name="role_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="fk_role_id" references="roles(role_id)"/>
+                <constraints primaryKey="true" foreignKeyName="role_id" references="roles(role_id)"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet author="hanna" id="10" runOnChange="true">
+    <changeSet author="anna" id="10" runOnChange="true">
         <createTable tableName="tour_city">
             <column name="tour_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="fk_tour_id" references="tours(tour_id)"/>
+                <constraints primaryKey="true" foreignKeyName="tour_id" references="tours(tour_id)"/>
             </column>
             <column name="city_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="fk_city_id" references="cities(city_id)"/>
+                <constraints primaryKey="true" foreignKeyName="city_id" references="cities(city_id)"/>
             </column>
         </createTable>
     </changeSet>

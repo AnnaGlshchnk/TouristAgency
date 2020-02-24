@@ -2,47 +2,52 @@ package com.anna.model;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Getter
+@Setter
+@Builder
 public class User {
 
     @Id()
     @GeneratedValue
-    @Getter
-    @Setter
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name="user_name")
-    @Getter
-    @Setter
+    @Column(name = "user_name", nullable = false, length = 40)
     private String name;
 
-    @Column(name="user_surname")
-    @Getter
-    @Setter
+    @Column(name = "user_surname", nullable = false, length = 40)
     private String surname;
 
-    @Column(name="passport_id")
-    @Getter
-    @Setter
+    @Column(name = "passport_id", nullable = false, length = 20)
     private String passportId;
 
-    @Column(name="email")
-    @Getter
-    @Setter
+    @Column(name = "email", unique = true, nullable = false, length = 50)
     private String email;
 
-    @Column(name="password")
-    @Getter
-    @Setter
+    @Column(name = "password", nullable = false, length = 20)
     private String password;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    private Set<Role> roles;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_tour",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tour_id")}
+    )
+    private List<Tour> tours;
 }

@@ -1,8 +1,8 @@
 package com.anna;
 
 import com.anna.dao.UserRepository;
+import com.anna.model.Role;
 import com.anna.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +12,6 @@ import java.util.List;
 @SpringBootApplication
 public class TouristAgencyApplication implements CommandLineRunner {
 
-    final
     UserRepository userRepository;
 
     public TouristAgencyApplication(UserRepository userRepository) {
@@ -25,7 +24,15 @@ public class TouristAgencyApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<User> userList = userRepository.findAll();
-        userList.forEach(System.out::println);
+
+        List<User> users = userRepository.findAll();
+
+        for (User c : users) {
+            System.out.print(c.getName() + " " + c.getSurname());
+            for (Role r : c.getRoles()) {
+                System.out.print(r.getRoleName() + " ");
+            }
+            System.out.println();
+        }
     }
 }

@@ -31,4 +31,36 @@
             <column name="password" value="password"/>
         </insert>
     </changeSet>
+    <changeSet author="hanna" id="13" runOnChange="true">
+        <insert tableName="user_role">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet author="hanna" id="14" runOnChange="true">
+        <insert tableName="countries">
+            <column name="country_name" value="Japan"/>
+        </insert>
+        <insert tableName="countries">
+            <column name="country_name" value="Belarus"/>
+        </insert>
+    </changeSet>
+    <changeSet author="hanna" id="15" runOnChange="true">
+        <insert tableName="cities">
+            <column name="city_name" value="Tokyo"/>
+            <column name="country_id" value="1"/>
+        </insert>
+        <insert tableName="cities">
+            <column name="city_name" value="Kyoto"/>
+            <column name="country_id" value="1"/>
+        </insert>
+        <insert tableName="cities">
+            <column name="city_name" value="Brest"/>
+            <column name="country_id" value="2"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
