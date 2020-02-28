@@ -1,8 +1,9 @@
-package com.anna.model;
+package com.anna.model.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class User {
     private String passportId;
 
     @Column(name = "email", unique = true, nullable = false, length = 50)
+    @Email
     private String email;
 
     @Column(name = "password", nullable = false, length = 20)

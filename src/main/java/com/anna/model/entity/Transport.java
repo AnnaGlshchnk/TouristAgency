@@ -1,4 +1,4 @@
-package com.anna.model;
+package com.anna.model.entity;
 
 import lombok.*;
 
