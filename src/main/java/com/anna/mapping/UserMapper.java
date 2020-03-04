@@ -1,6 +1,6 @@
 package com.anna.mapping;
 
-import com.anna.model.dto.UserDetail;
+import com.anna.model.dto.UserDetailDto;
 import com.anna.model.entity.User;
 
 import java.util.HashSet;
@@ -10,31 +10,30 @@ import java.util.Set;
 
 public class UserMapper {
 
-    public Set<UserDetail> mapUserEntityToUsersDetail(List<User> users) {
+    public Set<UserDetailDto> mapUserEntityToUsersDetail(List<User> users) {
 
-        Set<UserDetail> userDetailSet = new HashSet<>();
+        Set<UserDetailDto> userDetailDtoSet = new HashSet<>();
         users.forEach(user -> {
-            UserDetail userDetail = new UserDetail();
-            ;
-            userDetail.setName(user.getName());
-            userDetail.setSurname(user.getSurname());
-            userDetail.setPassportId(user.getPassportId());
-            userDetailSet.add(userDetail);
+            UserDetailDto userDetailDto = new UserDetailDto();
+            userDetailDto.setName(user.getName());
+            userDetailDto.setSurname(user.getSurname());
+            userDetailDto.setPassportId(user.getPassportId());
+            userDetailDtoSet.add(userDetailDto);
         });
 
-        return userDetailSet;
+        return userDetailDtoSet;
     }
 
-    public UserDetail mapUserEntityToUserDetail(Optional<User> user) {
+    public UserDetailDto mapUserEntityToUserDetail(Optional<User> user) {
 
-        UserDetail userDetail = null;
+        UserDetailDto userDetailDto = null;
         if (user.isPresent()) {
-            userDetail = new UserDetail();
+            userDetailDto = new UserDetailDto();
 
-            userDetail.setName(user.get().getName());
-            userDetail.setSurname(user.get().getSurname());
-            userDetail.setPassportId(user.get().getPassportId());
+            userDetailDto.setName(user.get().getName());
+            userDetailDto.setSurname(user.get().getSurname());
+            userDetailDto.setPassportId(user.get().getPassportId());
         }
-        return userDetail;
+        return userDetailDto;
     }
 }

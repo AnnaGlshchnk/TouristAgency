@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -34,7 +33,7 @@ public class User {
     @Email
     private String email;
 
-    @Column(name = "password", nullable = false, length = 20)
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -43,7 +42,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
-    private Set<Role> roles;
+    private List<Role> roles;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

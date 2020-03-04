@@ -1,6 +1,6 @@
 package com.anna.controller;
 
-import com.anna.model.dto.UserDetail;
+import com.anna.model.dto.UserDetailDto;
 import com.anna.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -24,13 +24,13 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(path = "/users")
-    public ResponseEntity<Set<UserDetail>> findAllUsers() {
+    public ResponseEntity<Set<UserDetailDto>> findAllUsers() {
         logger.info("get list of users");
         return ResponseEntity.ok().body(userService.findAllUsers());
     }
 
     @GetMapping(path = "/users/{id}")
-    public ResponseEntity<UserDetail> findUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDetailDto> findUserById(@PathVariable Long id) {
         logger.info("get user by id");
         return ResponseEntity.ok().body(userService.findUserById(id));
     }

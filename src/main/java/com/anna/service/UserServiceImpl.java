@@ -2,7 +2,7 @@ package com.anna.service;
 
 import com.anna.dao.UserRepository;
 import com.anna.mapping.UserMapper;
-import com.anna.model.dto.UserDetail;
+import com.anna.model.dto.UserDetailDto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +15,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
 
-    public Set<UserDetail> findAllUsers() {
+    public Set<UserDetailDto> findAllUsers() {
         UserMapper userMapper = new UserMapper();
         return userMapper.mapUserEntityToUsersDetail(userRepository.findAll());
     }
 
     @Override
-    public UserDetail findUserById(Long id) {
+    public UserDetailDto findUserById(Long id) {
         UserMapper userMapper = new UserMapper();
         return userMapper.mapUserEntityToUserDetail(userRepository.findById(id));
     }

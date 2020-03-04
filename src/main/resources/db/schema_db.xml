@@ -24,7 +24,7 @@
             <column name="email" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="password" type="VARCHAR(20)">
+            <column name="password" type="VARCHAR(60)">
                 <constraints nullable="false"/>
             </column>
         </createTable>

@@ -1,12 +1,12 @@
 package com.anna.service;
 
-import com.anna.model.dto.UserDetail;
+import com.anna.model.dto.UserDetailDto;
 
 import java.util.Set;
 
 public interface UserService {
 
-    Set<UserDetail> findAllUsers();
+    Set<UserDetailDto> findAllUsers();
 
-    UserDetail findUserById(Long id);
+    UserDetailDto findUserById(Long id);
 }
