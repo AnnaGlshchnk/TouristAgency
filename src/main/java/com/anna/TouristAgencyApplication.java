@@ -17,17 +17,4 @@ public class TouristAgencyApplication {
         SpringApplication.run(TouristAgencyApplication.class, args);
     }
 
-//    @Override
-//    public void run(String... args) throws Exception {
-//
-//        List<User> users = userRepository.findAll();
-//
-//        for (User c : users) {
-//            System.out.print(c.getName() + " " + c.getSurname());
-//            for (Role r : c.getRoles()) {
-//                System.out.print(r.getRoleName() + " ");
-//            }
-//            System.out.println();
-//        }
-//    }
 }

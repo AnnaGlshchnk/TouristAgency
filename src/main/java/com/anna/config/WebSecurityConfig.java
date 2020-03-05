@@ -2,8 +2,7 @@ package com.anna.config;
 
 import com.anna.security.CustomUserDetailsService;
 import com.anna.security.JwtAuthenticationEntryPoint;
-import com.anna.security.JwtTokenFilterConfigurer;
-import com.anna.security.JwtTokenProvider;
+import com.anna.security.JwtTokenFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,8 +30,7 @@ import static com.anna.util.Constant.BASE_URL;
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider tokenProvider;
-    private final CorsFilter corsFilter;
+    private final JwtTokenFilter jwtTokenFilter;
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -68,31 +65,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-
                 .csrf().disable()
-
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationErrorHandler)
-
-
-                // create no session
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 .and()
                 .authorizeRequests()
                 .antMatchers(BASE_URL + "/authenticate").permitAll()
-
-                .anyRequest().authenticated()
-
-                .and()
-                .apply(securityConfigurerAdapter());
-    }
-
-    private JwtTokenFilterConfigurer securityConfigurerAdapter() {
-        return new JwtTokenFilterConfigurer(tokenProvider);
+                .anyRequest().authenticated();
     }
 }

@@ -24,13 +24,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        log.debug("Authenticating user '{}'", username);
+        log.debug("Authenticating user with email '{}'", email);
 
-        return userRepository.findByEmail(username)
-                .map(user -> createSpringSecurityUser(username, user))
-                .orElseThrow(() -> new UsernameNotFoundException("User with email " + username + " was not found in the database"));
+        return userRepository.findByEmail(email)
+                .map(user -> createSpringSecurityUser(email, user))
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " was not found in the database"));
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String username, User user) {

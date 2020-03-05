@@ -30,16 +30,11 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
-        Date validity;
-
-        validity = new Date(now + this.validityInMilliseconds);
-
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS512, secretKey)
-                .setExpiration(validity)
+                .setExpiration(new Date(System.currentTimeMillis() + this.validityInMilliseconds))
                 .compact();
     }
 

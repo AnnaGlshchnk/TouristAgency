@@ -6,7 +6,6 @@ import com.anna.security.JwtTokenProvider;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,14 +48,10 @@ public class AuthenticationController {
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
-    /**
-     * Object to return as body in JWT Authentication.
-     */
     @AllArgsConstructor
     @Getter
-    @Setter
     static class JWTToken {
-        @JsonProperty("id_token")
-        private String idToken;
+        @JsonProperty("token")
+        private String token;
     }
 }
