@@ -1,39 +1,31 @@
 package com.anna.mapping;
 
+import com.anna.model.dto.RegistrationDto;
 import com.anna.model.dto.UserDetailDto;
 import com.anna.model.entity.User;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.factory.Mappers;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+@Mapper(componentModel = "spring")
+public interface UserMapper {
 
-public class UserMapper {
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    public Set<UserDetailDto> mapUserEntityToUsersDetail(List<User> users) {
+    @Mappings({
+            @Mapping(target = "name", source = "entity.name"),
+            @Mapping(target = "surname", source = "entity.surname"),
+            @Mapping(target = "passportId", source = "entity.passportId")
+    })
+    UserDetailDto registrationDtoToUserEntity(User entity);
 
-        Set<UserDetailDto> userDetailDtoSet = new HashSet<>();
-        users.forEach(user -> {
-            UserDetailDto userDetailDto = new UserDetailDto();
-            userDetailDto.setName(user.getName());
-            userDetailDto.setSurname(user.getSurname());
-            userDetailDto.setPassportId(user.getPassportId());
-            userDetailDtoSet.add(userDetailDto);
-        });
-
-        return userDetailDtoSet;
-    }
-
-    public UserDetailDto mapUserEntityToUserDetail(Optional<User> user) {
-
-        UserDetailDto userDetailDto = null;
-        if (user.isPresent()) {
-            userDetailDto = new UserDetailDto();
-
-            userDetailDto.setName(user.get().getName());
-            userDetailDto.setSurname(user.get().getSurname());
-            userDetailDto.setPassportId(user.get().getPassportId());
-        }
-        return userDetailDto;
-    }
+    @Mappings({
+            @Mapping(target = "name", source = "registrationDto.name"),
+            @Mapping(target = "surname", source = "registrationDto.surname"),
+            @Mapping(target = "passportId", source = "registrationDto.passportId"),
+            @Mapping(target = "email", source = "registrationDto.email"),
+            @Mapping(target = "password", source = "registrationDto.password")
+    })
+    User registrationDtoToUserEntity(RegistrationDto registrationDto);
 }

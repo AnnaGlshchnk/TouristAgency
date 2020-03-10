@@ -4,7 +4,7 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet author="hanna" id="tag" runOnChange="true">
+    <changeSet author="hanna" id="tag" >
         <tagDatabase tag="1.0"/>
     </changeSet>
     <changeSet author="hanna" id="1" runOnChange="true">
@@ -28,6 +28,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint tableName="users" columnNames="email"/>
         <rollback>
             <dropTable tableName="users"/>
         </rollback>

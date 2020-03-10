@@ -1,4 +1,4 @@
-package com.anna.dao;
+package com.anna.repository;
 
 import com.anna.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -3,7 +3,6 @@ package com.anna.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
@@ -16,7 +15,7 @@ import java.util.List;
 public class User {
 
     @Id()
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
 
@@ -30,13 +29,12 @@ public class User {
     private String passportId;
 
     @Column(name = "email", unique = true, nullable = false, length = 50)
-    @Email
     private String email;
 
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},

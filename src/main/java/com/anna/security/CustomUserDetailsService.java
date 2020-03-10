@@ -1,7 +1,7 @@
 package com.anna.security;
 
-import com.anna.dao.UserRepository;
 import com.anna.model.entity.User;
+import com.anna.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
