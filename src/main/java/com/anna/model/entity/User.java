@@ -34,7 +34,7 @@ public class User {
     @Column(name = "password", nullable = false, length = 60)
     private String password;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
@@ -42,7 +42,7 @@ public class User {
     )
     private List<Role> roles;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "user_tour",
             joinColumns = {@JoinColumn(name = "user_id")},

@@ -18,7 +18,7 @@ public interface UserMapper {
             @Mapping(target = "surname", source = "entity.surname"),
             @Mapping(target = "passportId", source = "entity.passportId")
     })
-    UserDetailDto registrationDtoToUserEntity(User entity);
+    UserDetailDto userEntityToUserDetailDto(User entity);
 
     @Mappings({
             @Mapping(target = "name", source = "registrationDto.name"),

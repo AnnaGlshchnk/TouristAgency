@@ -29,7 +29,7 @@ public class Tour {
     private City departureCity;
 
     @ManyToOne
-    @JoinColumn(name = "trastort_id")
+    @JoinColumn(name = "transport_type")
     private Transport transportType;
 
     @Column(nullable = false)
@@ -45,7 +45,7 @@ public class Tour {
     private Date departureDate;
 
     @ManyToOne
-    @JoinColumn(name = "hotel_id")
+    @JoinColumn(name = "hotel")
     private Hotel hotel;
 
     @Column(name = "description", nullable = false)
