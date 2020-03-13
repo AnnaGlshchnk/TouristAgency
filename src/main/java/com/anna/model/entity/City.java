@@ -23,18 +23,13 @@ public class City {
     @Column(name = "city_name", nullable = false, length = 40)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", nullable = false)
     private Country country;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departureCity", fetch = FetchType.LAZY)
     private List<Tour> tours;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "tour_city",
-            joinColumns = {@JoinColumn(name = "tour_id")},
-            inverseJoinColumns = {@JoinColumn(name = "city_id")}
-    )
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Tour> citiesInTour;
 }

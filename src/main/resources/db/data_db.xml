@@ -63,4 +63,38 @@
             <column name="country_id" value="2"/>
         </insert>
     </changeSet>
+
+    <changeSet author="hanna" id="16" runOnChange="true">
+        <insert tableName="transports">
+            <column name="type" value="plane"/>
+        </insert>
+        <insert tableName="transports">
+            <column name="type" value="train"/>
+        </insert>
+        <insert tableName="transports">
+            <column name="type" value="bus"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="hanna" id="17" runOnChange="true">
+        <insert tableName="hotels">
+            <column name="hotel_name" value="KYOTO GRANBELL HOTEL"/>
+            <column name="count_of_stars" value="3"/>
+            <column name="nutrition" value="AI"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="hanna" id="18" runOnChange="true">
+        <insert tableName="tours">
+            <column name="tour_name" value="paradise"/>
+            <column name="departure_city" value="2"/>
+            <column name="transport_type" value="1"/>
+            <column name="price" value="330"/>
+            <column name="count_of_nights" value="7"/>
+            <column name="cities" value="1"/>
+            <column name="departure_date" value='2020-06-16'/>
+            <column name="hotel" value="1"/>
+            <column name="description" value="best of the best"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

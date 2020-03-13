@@ -1,4 +1,4 @@
-package com.anna.service;
+package com.anna.service.implementation;
 
 import com.anna.exception.OperationFailedException;
 import com.anna.mapping.UserMapper;
@@ -7,6 +7,7 @@ import com.anna.model.dto.UserDetailDto;
 import com.anna.model.entity.User;
 import com.anna.repository.RoleRepository;
 import com.anna.repository.UserRepository;
+import com.anna.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

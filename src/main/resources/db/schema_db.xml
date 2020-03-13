@@ -7,7 +7,7 @@
     <changeSet author="hanna" id="tag" >
         <tagDatabase tag="1.0"/>
     </changeSet>
-    <changeSet author="hanna" id="1" runOnChange="true">
+    <changeSet author="hanna" id="1"   >
         <createTable tableName="users">
             <column autoIncrement="true" name="user_id" type="INT">
                 <constraints primaryKey="true"/>
@@ -34,7 +34,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="hanna" id="2" runOnChange="true">
+    <changeSet author="hanna" id="2"   >
         <createTable tableName="roles">
             <column autoIncrement="true" name="role_id" type="INT">
                 <constraints primaryKey="true"/>
@@ -48,7 +48,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="hanna" id="3" runOnChange="true">
+    <changeSet author="hanna" id="3"   >
         <createTable tableName="countries">
             <column autoIncrement="true" name="country_id" type="INT">
                 <constraints primaryKey="true"/>
@@ -57,12 +57,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint tableName="countries" columnNames="country_name"/>
         <rollback>
             <dropTable tableName="countries"/>
         </rollback>
     </changeSet>
 
-    <changeSet author="hanna" id="4" runOnChange="true">
+    <changeSet author="hanna" id="4"   >
         <createTable tableName="cities">
             <column autoIncrement="true" name="city_id" type="INT">
                 <constraints primaryKey="true"/>
@@ -79,7 +80,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="hanna" id="5" runOnChange="true">
+    <changeSet author="hanna" id="5"   >
         <createTable tableName="transports">
             <column autoIncrement="true" name="transport_id" type="INT">
                 <constraints primaryKey="true"/>
@@ -93,7 +94,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="hanna" id="6" runOnChange="true">
+    <changeSet author="hanna" id="6"   >
         <createTable tableName="hotels">
             <column autoIncrement="true" name="hotel_id" type="INT">
                 <constraints primaryKey="true"/>
@@ -113,7 +114,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="hanna" id="7" runOnChange="true">
+    <changeSet author="hanna" id="7"   >
         <createTable tableName="tours">
             <column autoIncrement="true" name="tour_id" type="INT">
                 <constraints primaryKey="true"/>
@@ -151,7 +152,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="anna" id="8" runOnChange="true">
+    <changeSet author="anna" id="8"   >
         <createTable tableName="user_tour">
             <column name="user_id" type="INT">
                 <constraints primaryKey="true" foreignKeyName="user_id" references="users(user_id)"/>
@@ -162,7 +163,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="hanna" id="9" runOnChange="true">
+    <changeSet author="hanna" id="9"   >
         <createTable tableName="user_role">
             <column name="user_id" type="INT">
                 <constraints primaryKey="true" foreignKeyName="user_id" references="users(user_id)"/>
@@ -173,7 +174,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="anna" id="10" runOnChange="true">
+    <changeSet author="anna" id="10"   >
         <createTable tableName="tour_city">
             <column name="tour_id" type="INT">
                 <constraints primaryKey="true" foreignKeyName="tour_id" references="tours(tour_id)"/>

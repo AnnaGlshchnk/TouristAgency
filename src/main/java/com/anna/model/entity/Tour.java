@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tours")
@@ -24,7 +23,7 @@ public class Tour {
     @Column(name = "tour_name", nullable = false, length = 30)
     private String tourName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "departure_city")
     private City departureCity;
 
@@ -38,8 +37,9 @@ public class Tour {
     @Column(name = "count_of_nights", nullable = false)
     private Integer countOfNights;
 
-    @ManyToMany(mappedBy = "citiesInTour")
-    private Set<City> citiesInTour;
+    @ManyToOne
+    @JoinColumn(name = "cities")
+    private City cities;
 
     @Column(name = "departure_date", nullable = false)
     private Date departureDate;
