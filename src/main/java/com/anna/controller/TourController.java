@@ -1,15 +1,16 @@
 package com.anna.controller;
 
+import com.anna.model.dto.NewTourDto;
+import com.anna.model.dto.TourDetailDto;
 import com.anna.model.dto.TourDto;
 import com.anna.service.TourService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 import static com.anna.util.Constant.BASE_URL;
@@ -26,5 +27,25 @@ public class TourController {
     public ResponseEntity<Set<TourDto>> findAllTours() {
         logger.info("get all touts");
         return ResponseEntity.ok().body(tourService.findAllTours());
+    }
+
+    @GetMapping(path = "/tours/{id}")
+    public ResponseEntity<TourDetailDto> findTourById(@PathVariable Long id) {
+        logger.info("get details of tour");
+        return ResponseEntity.ok().body(tourService.findTourById(id));
+    }
+
+    @PostMapping(path = "/tours")
+    public ResponseEntity<String> addNewTour(@Valid @RequestBody NewTourDto newTour) {
+        logger.info("save new tour");
+        tourService.saveTour(newTour);
+        return ResponseEntity.ok().body("new tour has created");
+    }
+
+    @DeleteMapping(path = "/tours/{id}")
+    public ResponseEntity<String> deleteTour(@PathVariable Long id) {
+        logger.info("delete tour");
+        tourService.deleteTour(id);
+        return ResponseEntity.ok().body("tour has deleted");
     }
 }

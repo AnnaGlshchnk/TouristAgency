@@ -173,16 +173,4 @@
             </column>
         </createTable>
     </changeSet>
-
-    <changeSet author="anna" id="10"   >
-        <createTable tableName="tour_city">
-            <column name="tour_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="tour_id" references="tours(tour_id)"/>
-            </column>
-            <column name="city_id" type="INT">
-                <constraints primaryKey="true" foreignKeyName="city_id" references="cities(city_id)"/>
-            </column>
-        </createTable>
-    </changeSet>
-
 </databaseChangeLog>

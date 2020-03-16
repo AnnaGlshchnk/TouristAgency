@@ -82,6 +82,11 @@
             <column name="count_of_stars" value="3"/>
             <column name="nutrition" value="AI"/>
         </insert>
+        <insert tableName="hotels">
+            <column name="hotel_name" value="Imperial Hotel Tokyo"/>
+            <column name="count_of_stars" value="5"/>
+            <column name="nutrition" value="AI"/>
+        </insert>
     </changeSet>
 
     <changeSet author="hanna" id="18" runOnChange="true">

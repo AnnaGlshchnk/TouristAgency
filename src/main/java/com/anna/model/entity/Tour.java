@@ -16,7 +16,7 @@ import java.util.List;
 public class Tour {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tour_id")
     private Long tourId;
 
