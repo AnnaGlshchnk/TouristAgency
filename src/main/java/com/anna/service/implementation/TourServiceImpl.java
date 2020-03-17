@@ -6,10 +6,7 @@ import com.anna.model.dto.NewTourDto;
 import com.anna.model.dto.TourDetailDto;
 import com.anna.model.dto.TourDto;
 import com.anna.model.entity.Tour;
-import com.anna.repository.CityRepository;
-import com.anna.repository.HotelRepository;
-import com.anna.repository.TourRepository;
-import com.anna.repository.TransportRepository;
+import com.anna.repository.*;
 import com.anna.service.TourService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,8 @@ public class TourServiceImpl implements TourService {
     private CityRepository cityRepository;
     private TransportRepository transportRepository;
     private HotelRepository hotelRepository;
+    private UserRepository userRepository;
+    private UserTourRepository userTourRepository;
 
     @Override
     public Set<TourDto> findAllTours() {
@@ -60,5 +59,12 @@ public class TourServiceImpl implements TourService {
     @Override
     public void deleteTour(Long id) {
         tourRepository.deleteById(id);
+    }
+
+    @Override
+    public void addTourToUserList(String email, Long id) throws OperationFailedException {
+        Long userId = userRepository.findByEmail(email).get().getUserId();
+        Long tourId = tourRepository.findById(id).get().getTourId();
+        userTourRepository.saveWithoutId(userId, tourId);
     }
 }

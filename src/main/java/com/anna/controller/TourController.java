@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -39,6 +40,14 @@ public class TourController {
     public ResponseEntity<String> addNewTour(@Valid @RequestBody NewTourDto newTour) {
         logger.info("save new tour");
         tourService.saveTour(newTour);
+        return ResponseEntity.ok().body("new tour has created");
+    }
+
+    @PutMapping(path = "/tours/{id}")
+    public ResponseEntity<String> addTourToUserList(Authentication authentication, @PathVariable Long id) {
+        logger.info("save new tour");
+        String userEmail = authentication.getName();
+        tourService.addTourToUserList(userEmail, id);
         return ResponseEntity.ok().body("new tour has created");
     }
 

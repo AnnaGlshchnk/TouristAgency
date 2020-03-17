@@ -16,4 +16,7 @@ public interface TourService {
     void saveTour(NewTourDto newTour);
 
     void deleteTour(Long id);
+
+    void addTourToUserList(String email, Long id);
+
 }
