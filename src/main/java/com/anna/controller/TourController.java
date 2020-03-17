@@ -45,10 +45,10 @@ public class TourController {
 
     @PutMapping(path = "/tours/{id}")
     public ResponseEntity<String> addTourToUserList(Authentication authentication, @PathVariable Long id) {
-        logger.info("save new tour");
+        logger.info("save tour to personal list");
         String userEmail = authentication.getName();
         tourService.addTourToUserList(userEmail, id);
-        return ResponseEntity.ok().body("new tour has created");
+        return ResponseEntity.ok().body("tour has added to personal list");
     }
 
     @DeleteMapping(path = "/tours/{id}")

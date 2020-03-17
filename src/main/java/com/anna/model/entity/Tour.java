@@ -51,6 +51,12 @@ public class Tour {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToMany(mappedBy = "tours")
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_tour",
+            joinColumns = {@JoinColumn(name = "tour_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
     private List<User> users;
 }

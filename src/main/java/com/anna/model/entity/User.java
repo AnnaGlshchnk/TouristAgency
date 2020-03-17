@@ -42,11 +42,6 @@ public class User {
     )
     private List<Role> roles;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_tour",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "tour_id")}
-    )
+    @ManyToMany(mappedBy = "users")
     private List<Tour> tours;
 }

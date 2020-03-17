@@ -6,6 +6,7 @@ import com.anna.model.dto.NewTourDto;
 import com.anna.model.dto.TourDetailDto;
 import com.anna.model.dto.TourDto;
 import com.anna.model.entity.Tour;
+import com.anna.model.entity.User;
 import com.anna.repository.*;
 import com.anna.service.TourService;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,6 @@ public class TourServiceImpl implements TourService {
     private TransportRepository transportRepository;
     private HotelRepository hotelRepository;
     private UserRepository userRepository;
-    private UserTourRepository userTourRepository;
 
     @Override
     public Set<TourDto> findAllTours() {
@@ -63,8 +63,9 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void addTourToUserList(String email, Long id) throws OperationFailedException {
-        Long userId = userRepository.findByEmail(email).get().getUserId();
-        Long tourId = tourRepository.findById(id).get().getTourId();
-        userTourRepository.saveWithoutId(userId, tourId);
+        User user = userRepository.findByEmail(email).get();
+        Tour tour = tourRepository.findById(id).get();
+        tour.getUsers().add(user);
+        tourRepository.save(tour);
     }
 }
