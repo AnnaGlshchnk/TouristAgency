@@ -10,13 +10,17 @@ public interface TourService {
 
     Set<TourDto> findAllTours();
 
-
     TourDetailDto findTourById(Long id);
 
-    void saveTour(NewTourDto newTour);
+    void addNewTour(NewTourDto newTour);
 
     void deleteTour(Long id);
 
     void addTourToUserList(String email, Long id);
 
+    Set<TourDto> findFavoriteTours(String email);
+
+    Set<TourDto> findToursByCities(String city);
+
+    Set<TourDto> sortTours();
 }

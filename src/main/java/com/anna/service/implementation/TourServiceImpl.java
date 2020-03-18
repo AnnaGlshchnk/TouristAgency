@@ -10,6 +10,7 @@ import com.anna.model.entity.User;
 import com.anna.repository.*;
 import com.anna.service.TourService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -43,7 +44,7 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public void saveTour(NewTourDto newTour) {
+    public void addNewTour(NewTourDto newTour) {
         Tour tour = TourMapper.INSTANCE.newTourDtoToTourEntity(newTour);
         tour.setDepartureCity(cityRepository.findByName(newTour.getDepartureCity())
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", newTour.getDepartureCity()))));
@@ -67,5 +68,35 @@ public class TourServiceImpl implements TourService {
         Tour tour = tourRepository.findById(id).get();
         tour.getUsers().add(user);
         tourRepository.save(tour);
+    }
+
+    @Override
+    public Set<TourDto> findFavoriteTours(String email) {
+        Set<TourDto> allFavoritesTours = new HashSet<>();
+        Set<Tour> tours = tourRepository.findToursByUsers(userRepository.findByEmail(email).get());
+        tours.forEach(tour -> {
+            allFavoritesTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
+        });
+        return allFavoritesTours;
+    }
+
+    @Override
+    public Set<TourDto> findToursByCities(String city) {
+        Set<TourDto> filterTours = new HashSet<>();
+        Set<Tour> tours = tourRepository.findToursByCities(cityRepository.findByName(city).get());
+        tours.forEach(tour -> {
+            filterTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
+        });
+        return filterTours;
+    }
+
+    @Override
+    public Set<TourDto> sortTours() {
+        Set<TourDto> sortedTours = new HashSet<>();
+        List<Tour> tours = tourRepository.findAll(Sort.by("price"));
+        tours.forEach(tour -> {
+            sortedTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
+        });
+        return sortedTours;
     }
 }

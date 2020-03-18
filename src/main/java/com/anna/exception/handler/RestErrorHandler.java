@@ -12,9 +12,19 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @CrossOrigin
 @ControllerAdvice
 public class RestErrorHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler(value = {NoSuchElementException.class})
+    public ResponseEntity<Object> handleNoSuchElementException(NoSuchElementException ex,
+                                                               WebRequest request) {
+        final ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
+        return handleExceptionInternal(ex, apiError, new HttpHeaders(),
+                HttpStatus.NOT_FOUND, request);
+    }
 
     @ExceptionHandler(value = {OperationFailedException.class})
     public ResponseEntity<Object> handleOperationFailedException(OperationFailedException ex,

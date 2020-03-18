@@ -25,9 +25,22 @@ public class TourController {
     private TourService tourService;
 
     @GetMapping(path = "/tours")
-    public ResponseEntity<Set<TourDto>> findAllTours() {
+    public ResponseEntity<Set<TourDto>> findAllTours(@RequestParam(required = false) String city) {
         logger.info("get all touts");
-        return ResponseEntity.ok().body(tourService.findAllTours());
+        Set<TourDto> allTours = null;
+        if (city != null) {
+            allTours = tourService.findToursByCities(city);
+        } else {
+            allTours = tourService.findAllTours();
+        }
+
+        return ResponseEntity.ok().body(allTours);
+    }
+
+    @GetMapping(path = "/tours/sorting")
+    public ResponseEntity<Set<TourDto>> sortTours() {
+        logger.info("get all touts");
+        return ResponseEntity.ok().body(tourService.sortTours());
     }
 
     @GetMapping(path = "/tours/{id}")
@@ -36,10 +49,16 @@ public class TourController {
         return ResponseEntity.ok().body(tourService.findTourById(id));
     }
 
+    @GetMapping(path = "/tours/favorites")
+    public ResponseEntity<Set<TourDto>> findFavoriteTours(Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok().body(tourService.findFavoriteTours(email));
+    }
+
     @PostMapping(path = "/tours")
     public ResponseEntity<String> addNewTour(@Valid @RequestBody NewTourDto newTour) {
         logger.info("save new tour");
-        tourService.saveTour(newTour);
+        tourService.addNewTour(newTour);
         return ResponseEntity.ok().body("new tour has created");
     }
 
