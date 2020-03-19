@@ -18,9 +18,15 @@ public interface TourService {
 
     void addTourToUserList(String email, Long id);
 
+    void deleteTourFromUserList(String email, Long id);
+
     Set<TourDto> findFavoriteTours(String email);
 
     Set<TourDto> findToursByCities(String city);
 
     Set<TourDto> sortTours();
+
+    Set<TourDto> findToursByTransport(String transport);
+
+    Set<TourDto> findByCitiesAndTransportType(String city, String transport);
 }

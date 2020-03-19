@@ -71,6 +71,14 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
+    public void deleteTourFromUserList(String email, Long id) {
+        User user = userRepository.findByEmail(email).get();
+        Tour tour = tourRepository.findById(id).get();
+        tour.getUsers().remove(user);
+        tourRepository.save(tour);
+    }
+
+    @Override
     public Set<TourDto> findFavoriteTours(String email) {
         Set<TourDto> allFavoritesTours = new HashSet<>();
         Set<Tour> tours = tourRepository.findToursByUsers(userRepository.findByEmail(email).get());
@@ -83,7 +91,8 @@ public class TourServiceImpl implements TourService {
     @Override
     public Set<TourDto> findToursByCities(String city) {
         Set<TourDto> filterTours = new HashSet<>();
-        Set<Tour> tours = tourRepository.findToursByCities(cityRepository.findByName(city).get());
+        Set<Tour> tours = tourRepository.findToursByCities(cityRepository.findByName(city)
+                .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))));
         tours.forEach(tour -> {
             filterTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
         });
@@ -98,5 +107,30 @@ public class TourServiceImpl implements TourService {
             sortedTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
         });
         return sortedTours;
+    }
+
+    @Override
+    public Set<TourDto> findToursByTransport(String transport) {
+        Set<TourDto> filterTours = new HashSet<>();
+        Set<Tour> tours = tourRepository.findToursByTransportType(transportRepository.findByTransportType(transport)
+                .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", transport))));
+        tours.forEach(tour -> {
+            filterTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
+        });
+        return filterTours;
+    }
+
+    @Override
+    public Set<TourDto> findByCitiesAndTransportType(String city, String transport) {
+        Set<TourDto> filterTours = new HashSet<>();
+        Set<Tour> tours = tourRepository.findByCitiesAndTransportType(
+                cityRepository.findByName(city)
+                        .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))),
+                transportRepository.findByTransportType(transport)
+                        .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", transport))));
+        tours.forEach(tour -> {
+            filterTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
+        });
+        return filterTours;
     }
 }

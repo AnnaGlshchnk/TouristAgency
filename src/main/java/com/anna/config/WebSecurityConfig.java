@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -76,7 +77,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(BASE_URL + "/authenticate",
                         BASE_URL + "/register").permitAll()
-                .antMatchers(BASE_URL + "/users").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, BASE_URL + "/users").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, BASE_URL + "/tours").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, BASE_URL + "/tours/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, BASE_URL + "/tours/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, BASE_URL + "/cities/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, BASE_URL + "/hotels/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated();
     }
 }

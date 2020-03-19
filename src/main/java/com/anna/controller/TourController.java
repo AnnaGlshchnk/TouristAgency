@@ -25,11 +25,16 @@ public class TourController {
     private TourService tourService;
 
     @GetMapping(path = "/tours")
-    public ResponseEntity<Set<TourDto>> findAllTours(@RequestParam(required = false) String city) {
+    public ResponseEntity<Set<TourDto>> findAllTours(@RequestParam(required = false) String city,
+                                                     @RequestParam(required = false) String transport) {
         logger.info("get all touts");
         Set<TourDto> allTours = null;
-        if (city != null) {
+        if (city != null && transport != null) {
+            allTours = tourService.findByCitiesAndTransportType(city, transport);
+        } else if (city != null) {
             allTours = tourService.findToursByCities(city);
+        } else if (transport != null) {
+            allTours = tourService.findToursByTransport(transport);
         } else {
             allTours = tourService.findAllTours();
         }
@@ -55,11 +60,19 @@ public class TourController {
         return ResponseEntity.ok().body(tourService.findFavoriteTours(email));
     }
 
+    @PutMapping(path = "/tours/favorites/{id}")
+    public ResponseEntity<String> deleteTourFromUserList(Authentication authentication, @PathVariable Long id) {
+        logger.info("delete tour from personal list");
+        String userEmail = authentication.getName();
+        tourService.deleteTourFromUserList(userEmail, id);
+        return ResponseEntity.ok().body("tour has deleted from personal list");
+    }
+
     @PostMapping(path = "/tours")
     public ResponseEntity<String> addNewTour(@Valid @RequestBody NewTourDto newTour) {
         logger.info("save new tour");
         tourService.addNewTour(newTour);
-        return ResponseEntity.ok().body("new tour has created");
+        return ResponseEntity.ok().body("new tour " + newTour.getName() + " has created");
     }
 
     @PutMapping(path = "/tours/{id}")
