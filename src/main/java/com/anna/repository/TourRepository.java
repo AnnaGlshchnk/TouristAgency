@@ -6,15 +6,15 @@ import com.anna.model.entity.Transport;
 import com.anna.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Set;
+import java.util.List;
 
 public interface TourRepository extends JpaRepository<Tour, Long> {
 
-    Set<Tour> findToursByUsers(User user);
+    List<Tour> findToursByUsers(User user);
 
-    Set<Tour> findToursByCities(City city);
+    List<Tour> findToursByCities(City city);
 
-    Set<Tour> findToursByTransportType(Transport transport);
+    List<Tour> findToursByTransportType(Transport transport);
 
-    Set<Tour> findByCitiesAndTransportType(City city, Transport transport);
+    List<Tour> findByCitiesAndTransportType(City city, Transport transport);
 }

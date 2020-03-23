@@ -6,6 +6,7 @@ import com.anna.security.JwtTokenProvider;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ import static com.anna.util.Constant.BASE_URL;
 
 @RestController
 @RequestMapping(BASE_URL)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private final JwtTokenProvider tokenProvider;

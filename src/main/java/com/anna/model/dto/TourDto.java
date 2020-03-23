@@ -1,6 +1,10 @@
 package com.anna.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -9,9 +13,8 @@ import lombok.*;
 @ToString
 public class TourDto {
 
-    private String name;
+    private String tourName;
     private Integer price;
-    private String country;
-    private String city;
+    private CityWithCountryDto cities;
     private String description;
 }

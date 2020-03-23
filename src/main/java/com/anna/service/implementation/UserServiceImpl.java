@@ -8,29 +8,24 @@ import com.anna.model.entity.User;
 import com.anna.repository.RoleRepository;
 import com.anna.repository.UserRepository;
 import com.anna.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     public static final String USER_ROLE = "user";
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     public Set<UserDetailDto> findAllUsers() throws OperationFailedException {
-        Set<UserDetailDto> allUsers = new HashSet<>();
         List<User> users = userRepository.findAll();
-        users.forEach(user -> {
-            allUsers.add(UserMapper.INSTANCE.userEntityToUserDetailDto(user));
-        });
-        return allUsers;
+        return UserMapper.INSTANCE.userEntityListToUserDetailDtoSet(users);
     }
 
     @Override
@@ -50,7 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(Long id, UserDetailDto updateUser) throws OperationFailedException {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new OperationFailedException(String.format("User with id %d doesn't exist", id)));
         user.setName(updateUser.getName());
         user.setSurname(updateUser.getSurname());
         user.setPassportId(updateUser.getPassportId());

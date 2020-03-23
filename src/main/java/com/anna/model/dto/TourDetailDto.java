@@ -1,6 +1,10 @@
 package com.anna.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -11,13 +15,12 @@ import java.util.Date;
 @ToString
 public class TourDetailDto {
 
-    private String name;
-    private String departureCity;
-    private String transportType;
+    private String tourName;
+    private CityWithCountryDto departureCity;
+    private TransportDto transportType;
     private Integer price;
-    private Integer countsOfNights;
-    private String country;
-    private String city;
+    private Integer countOfNights;
+    private CityWithCountryDto cities;
     private Date departureDate;
     private HotelDetailDto hotel;
     private String description;

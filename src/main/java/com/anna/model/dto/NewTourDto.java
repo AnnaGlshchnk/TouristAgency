@@ -19,15 +19,15 @@ public class NewTourDto {
 
     @NotNull(message = "The tour's name shouldn't be empty")
     @Size(min = 2, max = 30, message = "Tour's name should be between 2 and 30 characters")
-    private String name;
+    private String tourName;
 
     @NotNull(message = "Departure city shouldn't be empty")
     @Size(min = 2, max = 40, message = "Departure city should be between 2 and 40 characters")
-    private String departureCity;
+    private CityWithCountryDto departureCity;
 
     @NotNull(message = "Transport type shouldn't be empty")
     @Size(min = 2, max = 15, message = "Transport type should be between 2 and 15 characters")
-    private String transportType;
+    private TransportDto transportType;
 
     @NotNull(message = "Price shouldn't be empty")
     @Min(0)
@@ -35,11 +35,11 @@ public class NewTourDto {
 
     @NotNull(message = "Counts of nights shouldn't be empty")
     @Min(0)
-    private Integer countsOfNights;
+    private Integer countOfNights;
 
     @NotNull(message = "City shouldn't be empty")
     @Size(min = 2, max = 40, message = "City should be between 2 and 40 characters")
-    private String city;
+    private CityWithCountryDto city;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -47,7 +47,7 @@ public class NewTourDto {
 
     @NotNull(message = "Hotel shouldn't be empty")
     @Size(min = 2, max = 30, message = "Hotel should be between 2 and 30 characters")
-    private String hotel;
+    private HotelDetailDto hotel;
 
     @NotNull(message = "Description shouldn't be empty")
     @Size(min = 2, message = "Hotel should be more than 2 characters")

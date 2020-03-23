@@ -7,9 +7,13 @@ import com.anna.model.dto.TourDetailDto;
 import com.anna.model.dto.TourDto;
 import com.anna.model.entity.Tour;
 import com.anna.model.entity.User;
-import com.anna.repository.*;
+import com.anna.repository.CityRepository;
+import com.anna.repository.HotelRepository;
+import com.anna.repository.TourRepository;
+import com.anna.repository.TransportRepository;
+import com.anna.repository.UserRepository;
 import com.anna.service.TourService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,23 +22,19 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TourServiceImpl implements TourService {
 
-    private TourRepository tourRepository;
-    private CityRepository cityRepository;
-    private TransportRepository transportRepository;
-    private HotelRepository hotelRepository;
-    private UserRepository userRepository;
+    private final TourRepository tourRepository;
+    private final CityRepository cityRepository;
+    private final TransportRepository transportRepository;
+    private final HotelRepository hotelRepository;
+    private final UserRepository userRepository;
 
     @Override
     public Set<TourDto> findAllTours() {
-        Set<TourDto> allTours = new HashSet<>();
         List<Tour> tours = tourRepository.findAll();
-        tours.forEach(tour -> {
-            allTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
-        });
-        return allTours;
+        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
@@ -46,13 +46,13 @@ public class TourServiceImpl implements TourService {
     @Override
     public void addNewTour(NewTourDto newTour) {
         Tour tour = TourMapper.INSTANCE.newTourDtoToTourEntity(newTour);
-        tour.setDepartureCity(cityRepository.findByName(newTour.getDepartureCity())
+        tour.setDepartureCity(cityRepository.findByName(newTour.getDepartureCity().getCity())
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", newTour.getDepartureCity()))));
-        tour.setTransportType(transportRepository.findByTransportType(newTour.getTransportType())
+        tour.setTransportType(transportRepository.findByTransportType(newTour.getTransportType().getTransportType())
                 .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", newTour.getTransportType()))));
-        tour.setCities(cityRepository.findByName(newTour.getCity())
+        tour.setCities(cityRepository.findByName(newTour.getCity().getCity())
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", newTour.getCity()))));
-        tour.setHotel(hotelRepository.findByHotelName(newTour.getHotel())
+        tour.setHotel(hotelRepository.findByHotelName(newTour.getHotel().getHotelName())
                 .orElseThrow(() -> new OperationFailedException(String.format("Hotel %s doesn't exist", newTour.getHotel()))));
         tourRepository.save(tour);
     }
@@ -64,39 +64,44 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void addTourToUserList(String email, Long id) throws OperationFailedException {
-        User user = userRepository.findByEmail(email).get();
-        Tour tour = tourRepository.findById(id).get();
-        tour.getUsers().add(user);
-        tourRepository.save(tour);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new OperationFailedException(String.format("User with email  %s doesn't exist", email)));
+        Tour tour = tourRepository.findById(id)
+                .orElseThrow(() -> new OperationFailedException(String.format("Tour with id  %d doesn't exist", id)));
+        if (tour.getUsers() != null) {
+            tour.getUsers().add(user);
+            tourRepository.save(tour);
+        } else throw new OperationFailedException("Tour doesn't have user list");
     }
 
     @Override
     public void deleteTourFromUserList(String email, Long id) {
-        User user = userRepository.findByEmail(email).get();
-        Tour tour = tourRepository.findById(id).get();
-        tour.getUsers().remove(user);
-        tourRepository.save(tour);
+        User userFromBD = userRepository.findByEmail(email)
+                .orElseThrow(() -> new OperationFailedException(String.format("User with email  %s doesn't exist", email)));
+        Tour tour = tourRepository.findById(id)
+                .orElseThrow(() -> new OperationFailedException(String.format("Tour with id  %d doesn't exist", id)));
+        if (tour.getUsers() != null) {
+            tour.getUsers().forEach(user -> {
+                if (user.getEmail().equals(email)) {
+                    tour.getUsers().remove(userFromBD);
+                }
+            });
+            tourRepository.save(tour);
+        } else throw new OperationFailedException("Tour doesn't have user list");
     }
 
     @Override
     public Set<TourDto> findFavoriteTours(String email) {
-        Set<TourDto> allFavoritesTours = new HashSet<>();
-        Set<Tour> tours = tourRepository.findToursByUsers(userRepository.findByEmail(email).get());
-        tours.forEach(tour -> {
-            allFavoritesTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
-        });
-        return allFavoritesTours;
+        List<Tour> tours = tourRepository.findToursByUsers(userRepository.findByEmail(email)
+                .orElseThrow(() -> new OperationFailedException(String.format("User with email  %s doesn't exist", email))));
+        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
     public Set<TourDto> findToursByCities(String city) {
-        Set<TourDto> filterTours = new HashSet<>();
-        Set<Tour> tours = tourRepository.findToursByCities(cityRepository.findByName(city)
+        List<Tour> tours = tourRepository.findToursByCities(cityRepository.findByName(city)
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))));
-        tours.forEach(tour -> {
-            filterTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
-        });
-        return filterTours;
+        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
@@ -111,26 +116,18 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public Set<TourDto> findToursByTransport(String transport) {
-        Set<TourDto> filterTours = new HashSet<>();
-        Set<Tour> tours = tourRepository.findToursByTransportType(transportRepository.findByTransportType(transport)
+        List<Tour> tours = tourRepository.findToursByTransportType(transportRepository.findByTransportType(transport)
                 .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", transport))));
-        tours.forEach(tour -> {
-            filterTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
-        });
-        return filterTours;
+        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
     public Set<TourDto> findByCitiesAndTransportType(String city, String transport) {
-        Set<TourDto> filterTours = new HashSet<>();
-        Set<Tour> tours = tourRepository.findByCitiesAndTransportType(
+        List<Tour> tours = tourRepository.findByCitiesAndTransportType(
                 cityRepository.findByName(city)
                         .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))),
                 transportRepository.findByTransportType(transport)
                         .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", transport))));
-        tours.forEach(tour -> {
-            filterTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
-        });
-        return filterTours;
+        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
     }
 }

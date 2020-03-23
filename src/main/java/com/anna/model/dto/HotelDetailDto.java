@@ -1,6 +1,10 @@
 package com.anna.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

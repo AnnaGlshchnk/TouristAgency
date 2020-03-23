@@ -11,8 +11,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LoginDto {
+public class TransportDto {
 
-    private String email;
-    private String password;
+    private String transportType;
 }

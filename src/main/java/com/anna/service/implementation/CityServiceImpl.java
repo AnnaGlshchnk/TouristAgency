@@ -6,28 +6,23 @@ import com.anna.model.entity.City;
 import com.anna.repository.CityRepository;
 import com.anna.repository.CountryRepository;
 import com.anna.service.CityService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CityServiceImpl implements CityService {
 
-    private CityRepository cityRepository;
-    private CountryRepository countryRepository;
+    private final CityRepository cityRepository;
+    private final CountryRepository countryRepository;
 
     @Override
     public Set<CityWithCountryDto> findAllCityWithCountries() {
         List<City> citiesFromDB = cityRepository.findAll();
-        Set<CityWithCountryDto> cities = new HashSet<>();
-        citiesFromDB.forEach(city -> {
-            cities.add(CityWithCountryMapper.INSTANCE.cityEntityToCityWithCountryDto(city));
-        });
-        return cities;
+        return CityWithCountryMapper.INSTANCE.cityEntityListToCityWithCountryDtoSet(citiesFromDB);
     }
 
     @Override
