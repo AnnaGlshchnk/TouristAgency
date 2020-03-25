@@ -83,7 +83,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         BASE_URL + "/register").permitAll()
                 .antMatchers(HttpMethod.GET, BASE_URL + "/users").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, BASE_URL + "/tours").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, BASE_URL + "/tours/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, BASE_URL + "/tours/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, BASE_URL + "/cities/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, BASE_URL + "/hotels/**").hasAuthority("ADMIN")

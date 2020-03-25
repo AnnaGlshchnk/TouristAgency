@@ -3,19 +3,19 @@ package com.anna.mapping;
 import com.anna.model.dto.CityWithCountryDto;
 import com.anna.model.entity.City;
 import com.anna.model.entity.Country;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface CityWithCountryMapper {
-
-    CityWithCountryMapper INSTANCE = Mappers.getMapper(CityWithCountryMapper.class);
 
     @IterableMapping(elementTargetType = CityWithCountryDto.class)
     Set<CityWithCountryDto> cityEntityListToCityWithCountryDtoSet(List<City> cityEntity);
@@ -35,7 +35,15 @@ public interface CityWithCountryMapper {
     City cityWithCountryDtoToCityEntity(CityWithCountryDto city);
 
     @Mappings({
-            @Mapping(target = "name", source = "city.country")
+            @Mapping(target = "name", source = "city.country"),
+            @Mapping(target = "cities", ignore = true)
     })
-    Country cityWithCountryDtoToCountryEntity(CityWithCountryDto city);
+    void mapCityWithCountryDtoToCountryEntity(CityWithCountryDto city, @MappingTarget Country country);
+
+    @AfterMapping
+    default void handleCities(CityWithCountryDto dto, @MappingTarget Country country) {
+        City city = cityWithCountryDtoToCityEntity(dto);
+        city.setCountry(country);
+        country.setCities(Collections.singletonList(city));
+    }
 }

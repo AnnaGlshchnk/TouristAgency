@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,22 +29,23 @@ public class TourServiceImpl implements TourService {
     private final TransportRepository transportRepository;
     private final HotelRepository hotelRepository;
     private final UserRepository userRepository;
+    private final TourMapper tourMapper;
 
     @Override
     public Set<TourDto> findAllTours() {
         List<Tour> tours = tourRepository.findAll();
-        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
+        return tourMapper.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
     public TourDetailDto findTourById(Long id) {
-        return TourMapper.INSTANCE.tourEntityToTourDetailDto(tourRepository.findById(id)
+        return tourMapper.tourEntityToTourDetailDto(tourRepository.findById(id)
                 .orElseThrow(() -> new OperationFailedException(String.format("Tour with id %d doesn't exist", id))));
     }
 
     @Override
     public void addNewTour(NewTourDto newTour) {
-        Tour tour = TourMapper.INSTANCE.newTourDtoToTourEntity(newTour);
+        Tour tour = tourMapper.newTourDtoToTourEntity(newTour);
         tour.setDepartureCity(cityRepository.findByName(newTour.getDepartureCity().getCity())
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", newTour.getDepartureCity()))));
         tour.setTransportType(transportRepository.findByTransportType(newTour.getTransportType().getTransportType())
@@ -81,11 +81,7 @@ public class TourServiceImpl implements TourService {
         Tour tour = tourRepository.findById(id)
                 .orElseThrow(() -> new OperationFailedException(String.format("Tour with id  %d doesn't exist", id)));
         if (tour.getUsers() != null) {
-            tour.getUsers().forEach(user -> {
-                if (user.getEmail().equals(email)) {
-                    tour.getUsers().remove(userFromBD);
-                }
-            });
+            tour.getUsers().remove(userFromBD);
             tourRepository.save(tour);
         } else throw new OperationFailedException("Tour doesn't have user list");
     }
@@ -94,31 +90,28 @@ public class TourServiceImpl implements TourService {
     public Set<TourDto> findFavoriteTours(String email) {
         List<Tour> tours = tourRepository.findToursByUsers(userRepository.findByEmail(email)
                 .orElseThrow(() -> new OperationFailedException(String.format("User with email  %s doesn't exist", email))));
-        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
+        return tourMapper.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
     public Set<TourDto> findToursByCities(String city) {
         List<Tour> tours = tourRepository.findToursByCities(cityRepository.findByName(city)
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))));
-        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
+        return tourMapper.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
     public Set<TourDto> sortTours() {
-        Set<TourDto> sortedTours = new HashSet<>();
         List<Tour> tours = tourRepository.findAll(Sort.by("price"));
-        tours.forEach(tour -> {
-            sortedTours.add(TourMapper.INSTANCE.tourEntityToTourDto(tour));
-        });
-        return sortedTours;
+
+        return tourMapper.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
     public Set<TourDto> findToursByTransport(String transport) {
         List<Tour> tours = tourRepository.findToursByTransportType(transportRepository.findByTransportType(transport)
                 .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", transport))));
-        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
+        return tourMapper.tourEntityListToTourDtoSet(tours);
     }
 
     @Override
@@ -128,6 +121,6 @@ public class TourServiceImpl implements TourService {
                         .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))),
                 transportRepository.findByTransportType(transport)
                         .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", transport))));
-        return TourMapper.INSTANCE.tourEntityListToTourDtoSet(tours);
+        return tourMapper.tourEntityListToTourDtoSet(tours);
     }
 }

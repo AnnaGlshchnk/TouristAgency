@@ -16,15 +16,16 @@ import java.util.Set;
 public class HotelServiceImpl implements HotelService {
 
     private final HotelRepository hotelRepository;
+    private final HotelMapper hotelMapper;
 
     @Override
     public Set<HotelDetailDto> findAllHotel() {
         List<Hotel> hotelsFromDB = hotelRepository.findAll();
-        return (HotelMapper.INSTANCE.hotelEntityListToHotelDetailDtoSet(hotelsFromDB));
+        return (hotelMapper.hotelEntityListToHotelDetailDtoSet(hotelsFromDB));
     }
 
     @Override
     public void addNewHotel(HotelDetailDto hotelDetailDto) {
-        hotelRepository.save(HotelMapper.INSTANCE.hotelEntityToHotelDetailDto(hotelDetailDto));
+        hotelRepository.save(hotelMapper.hotelEntityToHotelDetailDto(hotelDetailDto));
     }
 }

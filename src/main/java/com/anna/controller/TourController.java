@@ -37,26 +37,26 @@ public class TourController {
         return ResponseEntity.ok().body(tourService.findAllTours());
     }
 
-    @GetMapping(path = "/toursByTransport")
+    @GetMapping(path = "/tours", params = "transport")
     public ResponseEntity<Set<TourDto>> findAllToursByTransport(@RequestParam String transport) {
 
         return ResponseEntity.ok().body(tourService.findToursByTransport(transport));
     }
 
-    @GetMapping(path = "/toursByCities")
+    @GetMapping(path = "/tours", params = "city")
     public ResponseEntity<Set<TourDto>> findAllToursByCities(@RequestParam String city) {
 
         return ResponseEntity.ok().body(tourService.findToursByCities(city));
     }
 
-    @GetMapping(path = "/toursByCitiesAndTransport")
+    @GetMapping(path = "/tours", params = {"city", "transport"})
     public ResponseEntity<Set<TourDto>> findAllToursByCitiesAndTransportType(@RequestParam String city,
                                                                              @RequestParam String transport) {
 
         return ResponseEntity.ok().body(tourService.findByCitiesAndTransportType(city, transport));
     }
 
-    @GetMapping(path = "/tours/sorting")
+    @GetMapping(path = "/tours", params = {"sort=price:desc", "sort=price:asc"})
     public ResponseEntity<Set<TourDto>> sortTours() {
 
         return ResponseEntity.ok().body(tourService.sortTours());

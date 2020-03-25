@@ -38,12 +38,12 @@ public class City {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id", nullable = false)
+    @JoinColumn(name = "country_id")
     private Country country;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departureCity", fetch = FetchType.LAZY)
     private List<Tour> tours;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Tour> citiesInTour;
 }
