@@ -15,6 +15,7 @@ public class TourDto {
 
     private String tourName;
     private Integer price;
-    private CityWithCountryDto cities;
+    private String country;
+    private CityDto city;
     private String description;
 }

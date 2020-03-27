@@ -46,11 +46,11 @@ public class TourServiceImpl implements TourService {
     @Override
     public void addNewTour(NewTourDto newTour) {
         Tour tour = tourMapper.newTourDtoToTourEntity(newTour);
-        tour.setDepartureCity(cityRepository.findByName(newTour.getDepartureCity().getCity())
+        tour.setDepartureCity(cityRepository.findByName(newTour.getDepartureCity().getName())
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", newTour.getDepartureCity()))));
         tour.setTransportType(transportRepository.findByTransportType(newTour.getTransportType().getTransportType())
                 .orElseThrow(() -> new OperationFailedException(String.format("Transport type %s doesn't exist", newTour.getTransportType()))));
-        tour.setCities(cityRepository.findByName(newTour.getCity().getCity())
+        tour.setCity(cityRepository.findByName(newTour.getCity().getName())
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", newTour.getCity()))));
         tour.setHotel(hotelRepository.findByHotelName(newTour.getHotel().getHotelName())
                 .orElseThrow(() -> new OperationFailedException(String.format("Hotel %s doesn't exist", newTour.getHotel()))));
@@ -94,8 +94,8 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Set<TourDto> findToursByCities(String city) {
-        List<Tour> tours = tourRepository.findToursByCities(cityRepository.findByName(city)
+    public Set<TourDto> findToursByCity(String city) {
+        List<Tour> tours = tourRepository.findToursByCity(cityRepository.findByName(city)
                 .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))));
         return tourMapper.tourEntityListToTourDtoSet(tours);
     }
@@ -115,8 +115,8 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public Set<TourDto> findByCitiesAndTransportType(String city, String transport) {
-        List<Tour> tours = tourRepository.findByCitiesAndTransportType(
+    public Set<TourDto> findByCityAndTransportType(String city, String transport) {
+        List<Tour> tours = tourRepository.findByCityAndTransportType(
                 cityRepository.findByName(city)
                         .orElseThrow(() -> new OperationFailedException(String.format("City %s doesn't exist", city))),
                 transportRepository.findByTransportType(transport)

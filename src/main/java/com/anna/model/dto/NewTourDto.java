@@ -22,7 +22,7 @@ public class NewTourDto {
     private String tourName;
 
     @NotNull(message = "Departure city shouldn't be empty")
-    private CityWithCountryDto departureCity;
+    private CityDto departureCity;
 
     @NotNull(message = "Transport type shouldn't be empty")
     private TransportDto transportType;
@@ -36,7 +36,7 @@ public class NewTourDto {
     private Integer countOfNights;
 
     @NotNull(message = "City shouldn't be empty")
-    private CityWithCountryDto city;
+    private CityDto city;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -16,11 +16,13 @@ import java.util.Date;
 public class TourDetailDto {
 
     private String tourName;
-    private CityWithCountryDto departureCity;
+    private String departureCountry;
+    private CityDto departureCity;
     private TransportDto transportType;
     private Integer price;
     private Integer countOfNights;
-    private CityWithCountryDto cities;
+    private String country;
+    private CityDto city;
     private Date departureDate;
     private HotelDetailDto hotel;
     private String description;

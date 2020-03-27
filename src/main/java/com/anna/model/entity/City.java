@@ -44,6 +44,6 @@ public class City {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departureCity", fetch = FetchType.LAZY)
     private List<Tour> tours;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Tour> citiesInTour;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city")
+    private Set<Tour> cityInTour;
 }

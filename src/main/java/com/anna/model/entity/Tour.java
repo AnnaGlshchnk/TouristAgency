@@ -53,7 +53,7 @@ public class Tour {
 
     @ManyToOne
     @JoinColumn(name = "cities")
-    private City cities;
+    private City city;
 
     @Column(name = "departure_date", nullable = false)
     private Date departureDate;

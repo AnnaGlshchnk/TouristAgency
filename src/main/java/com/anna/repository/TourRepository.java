@@ -12,9 +12,9 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
 
     List<Tour> findToursByUsers(User user);
 
-    List<Tour> findToursByCities(City city);
+    List<Tour> findToursByCity(City city);
 
     List<Tour> findToursByTransportType(Transport transport);
 
-    List<Tour> findByCitiesAndTransportType(City city, Transport transport);
+    List<Tour> findByCityAndTransportType(City city, Transport transport);
 }

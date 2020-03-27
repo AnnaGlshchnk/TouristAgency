@@ -22,11 +22,11 @@ public interface TourService {
 
     Set<TourDto> findFavoriteTours(String email);
 
-    Set<TourDto> findToursByCities(String city);
+    Set<TourDto> findToursByCity(String city);
 
     Set<TourDto> sortTours();
 
     Set<TourDto> findToursByTransport(String transport);
 
-    Set<TourDto> findByCitiesAndTransportType(String city, String transport);
+    Set<TourDto> findByCityAndTransportType(String city, String transport);
 }
