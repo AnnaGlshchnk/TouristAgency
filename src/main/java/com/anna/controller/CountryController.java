@@ -4,6 +4,7 @@ import com.anna.model.dto.CountryDto;
 import com.anna.service.CountryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import java.util.Set;
 import static com.anna.util.Constant.BASE_URL;
 
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping(BASE_URL)
 public class CountryController {

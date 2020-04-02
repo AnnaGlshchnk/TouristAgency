@@ -5,6 +5,7 @@ import com.anna.model.dto.UserDetailDto;
 import com.anna.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import java.util.Set;
 import static com.anna.util.Constant.BASE_URL;
 
 @RestController
+@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping(BASE_URL)
 public class UserController {
@@ -37,9 +39,9 @@ public class UserController {
     }
 
     @PostMapping(path = "/user")
-    public ResponseEntity<String> addNewUser(@Valid @RequestBody RegistrationDto newUser) {
+    public ResponseEntity<Void> addNewUser(@Valid @RequestBody RegistrationDto newUser) {
         userService.addNewUser(newUser);
-        return ResponseEntity.ok().body("new user has been created");
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping(path = "/users/{id}")
