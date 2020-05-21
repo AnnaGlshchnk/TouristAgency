@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="hanna" id="tagDatabase-example">
+        <tagDatabase tag="1.2"/>
+    </changeSet>
+    <changeSet author="hanna" id="11" runOnChange="true">
+        <insert tableName="roles">
+            <column name="role_name" value="ADMIN"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="role_name" value="user"/>
+        </insert>
+    </changeSet>
+    <changeSet author="hanna" id="12" runOnChange="true">
+        <insert tableName="users">
+            <column name="user_name" value="Hanna"/>
+            <column name="user_surname" value="Hlushchanka"/>
+            <column name="passport_id" value="AB1234567"/>
+            <column name="email" value="test@mail.com"/>
+            <column name="password" value="qwerty12"/>
+        </insert>
+        <insert tableName="users">
+            <column name="user_name" value="Kris"/>
+            <column name="user_surname" value="Owen"/>
+            <column name="passport_id" value="AB1598742"/>
+            <column name="email" value="crisowen@mail.com"/>
+            <column name="password" value="password"/>
+        </insert>
+    </changeSet>
+    <changeSet author="hanna" id="13" runOnChange="true">
+        <insert tableName="user_role">
+            <column name="user_id" value="1"/>
+            <column name="role_id" value="1"/>
+        </insert>
+        <insert tableName="user_role">
+            <column name="user_id" value="2"/>
+            <column name="role_id" value="2"/>
+        </insert>
+    </changeSet>
+    <changeSet author="hanna" id="14" runOnChange="true">
+        <insert tableName="countries">
+            <column name="country_name" value="Japan"/>
+        </insert>
+        <insert tableName="countries">
+            <column name="country_name" value="Belarus"/>
+        </insert>
+    </changeSet>
+    <changeSet author="hanna" id="15" runOnChange="true">
+        <insert tableName="cities">
+            <column name="city_name" value="Tokyo"/>
+            <column name="country_id" value="1"/>
+        </insert>
+        <insert tableName="cities">
+            <column name="city_name" value="Kyoto"/>
+            <column name="country_id" value="1"/>
+        </insert>
+        <insert tableName="cities">
+            <column name="city_name" value="Brest"/>
+            <column name="country_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="hanna" id="16" runOnChange="true">
+        <insert tableName="transports">
+            <column name="type" value="plane"/>
+        </insert>
+        <insert tableName="transports">
+            <column name="type" value="train"/>
+        </insert>
+        <insert tableName="transports">
+            <column name="type" value="bus"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="hanna" id="17" runOnChange="true">
+        <insert tableName="hotels">
+            <column name="hotel_name" value="KYOTO GRANBELL HOTEL"/>
+            <column name="count_of_stars" value="3"/>
+            <column name="nutrition" value="AI"/>
+        </insert>
+        <insert tableName="hotels">
+            <column name="hotel_name" value="Imperial Hotel Tokyo"/>
+            <column name="count_of_stars" value="5"/>
+            <column name="nutrition" value="AI"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="hanna" id="18" runOnChange="true">
+        <insert tableName="tours">
+            <column name="tour_name" value="paradise"/>
+            <column name="departure_city" value="2"/>
+            <column name="transport_type" value="1"/>
+            <column name="price" value="330"/>
+            <column name="count_of_nights" value="7"/>
+            <column name="cities" value="1"/>
+            <column name="departure_date" value='2020-06-16'/>
+            <column name="hotel" value="1"/>
+            <column name="description" value="best of the best"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

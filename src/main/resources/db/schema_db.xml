@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="hanna" id="tag" >
+        <tagDatabase tag="1.0"/>
+    </changeSet>
+    <changeSet author="hanna" id="1"   >
+        <createTable tableName="users">
+            <column autoIncrement="true" name="user_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_name" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_surname" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passport_id" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="users" columnNames="email"/>
+        <rollback>
+            <dropTable tableName="users"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="hanna" id="2"   >
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="role_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="role_name" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="users"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="hanna" id="3"   >
+        <createTable tableName="countries">
+            <column autoIncrement="true" name="country_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="country_name" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="countries" columnNames="country_name"/>
+        <rollback>
+            <dropTable tableName="countries"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="hanna" id="4"   >
+        <createTable tableName="cities">
+            <column autoIncrement="true" name="city_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="city_name" type="VARCHAR(40)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="country_id" type="INT">
+                <constraints nullable="false" foreignKeyName="country_id" references="countries(country_id)"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="cities"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="hanna" id="5"   >
+        <createTable tableName="transports">
+            <column autoIncrement="true" name="transport_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="type" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="transports"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="hanna" id="6"   >
+        <createTable tableName="hotels">
+            <column autoIncrement="true" name="hotel_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="hotel_name" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="count_of_stars" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nutrition" type="VARCHAR(5)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="hotels"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="hanna" id="7"   >
+        <createTable tableName="tours">
+            <column autoIncrement="true" name="tour_id" type="INT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="tour_name" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="departure_city" type="INT">
+                <constraints nullable="false" foreignKeyName="departure_city" references="cities(city_id)"/>
+            </column>
+            <column name="transport_type" type="INT">
+                <constraints nullable="false" foreignKeyName="transport_type" references="transports(transport_id)"/>
+            </column>
+            <column name="price" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="count_of_nights" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cities" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="departure_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hotel" type="INT">
+                <constraints nullable="false" foreignKeyName="hotel" references="hotels(hotel_id)"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="tours"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="anna" id="8"   >
+        <createTable tableName="user_tour">
+            <column name="user_id" type="INT">
+                <constraints primaryKey="true" foreignKeyName="user_id" references="users(user_id)"/>
+            </column>
+            <column name="tour_id" type="INT">
+                <constraints primaryKey="true" foreignKeyName="tour_id" references="tours(tour_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="hanna" id="9"   >
+        <createTable tableName="user_role">
+            <column name="user_id" type="INT">
+                <constraints primaryKey="true" foreignKeyName="user_id" references="users(user_id)"/>
+            </column>
+            <column name="role_id" type="INT">
+                <constraints primaryKey="true" foreignKeyName="role_id" references="roles(role_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
